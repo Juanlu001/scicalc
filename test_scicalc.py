@@ -1,3 +1,5 @@
+import pytest
+
 from scicalc.tokenize import tokenize
 
 
@@ -30,3 +32,18 @@ def test_tokenize_parentheses():
 
 def test_linear_equation():
     assert tokenize("2*x=1") == tokenize("  2 * x = 1") == ["2", "*", "x", "=", "1"]
+
+
+def test_error_on_invalid_character():
+    with pytest.raises(SyntaxError) as excinfo:
+        tokenize('1 + yxz')
+    assert ('SyntaxError: Invalid character "y"'
+            in excinfo.exconly())
+
+
+@pytest.mark.xfail
+def test_error_invalid_token_with_whitespace():
+    with pytest.raises(SyntaxError) as excinfo:
+        tokenize('1 + lo g 2')
+    assert ('SyntaxError: Invalid charater "l"'
+            in excinfo.exconly())
