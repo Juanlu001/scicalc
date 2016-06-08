@@ -1,4 +1,4 @@
-from scicalc import tokenize
+from scicalc.tokenize import tokenize
 
 
 def test_tokenize_single_int():
