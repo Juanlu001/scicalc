@@ -4,6 +4,7 @@
 import re
 
 TOKENS = [
+    ('WHITESPACE', r'\s+'),
     ('FLOAT', r'\d+\.\d+'),
     ('INTEGER', r'\d+'),
     ('MINUS', r'\-'),
@@ -17,12 +18,14 @@ TOKENS = [
     ('EQUALS', '='),
 ]
 
+T_IGNORE = 'WHITESPACE'
+
 
 def tokenize(line):
     """Tokenizes a line of input.
 
     """
-    return [token for token, _ in split_tokens(line.replace(" ", ""))]
+    return [token for token, _ in split_tokens(line)]
 
 
 def split_tokens(line):
@@ -36,7 +39,8 @@ def split_tokens(line):
                 if match:
                     # Shift string, yield token, repeat
                     index = match.end()
-                    yield match.group(), t_type
+                    if t_type != T_IGNORE:
+                        yield match.group(), t_type
                     break
             else:
                 # No proper token was found

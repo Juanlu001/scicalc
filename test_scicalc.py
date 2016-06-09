@@ -41,9 +41,8 @@ def test_error_on_invalid_character():
             in excinfo.exconly())
 
 
-@pytest.mark.xfail
 def test_error_invalid_token_with_whitespace():
     with pytest.raises(SyntaxError) as excinfo:
         tokenize('1 + lo g 2')
-    assert ('SyntaxError: Invalid charater "l"'
+    assert ('SyntaxError: Invalid character "l"'
             in excinfo.exconly())
