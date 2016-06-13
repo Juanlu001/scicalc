@@ -17,6 +17,7 @@ def main():
         except (SyntaxError, ValueError) as e:
             print(e)
         except EOFError:
+            print()  # Print empty line
             break
 
 

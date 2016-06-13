@@ -20,6 +20,9 @@ OP_OPERATIONS = {
 
 
 def evaluate(line):
+    """Evaluate an input line, whether it's an expression or an equation.
+
+    """
     tokenized = list(split_tokens(line))
     types, values = zip(*tokenized)
     if "x" in values or "=" in values:
@@ -42,10 +45,14 @@ def evaluate(line):
         return _evaluate_expression(tokenized)
 
 
-def _evaluate_postfix(tokens):
-    # TODO: Properly evaluate
-    # https://en.wikipedia.org/wiki/Reverse_Polish_notation
+def evaluate_postfix(tokens):
+    """Evaluate token stream in postfix (RPN) form.
 
+    Notes
+    -----
+    Based on https://en.wikipedia.org/wiki/Reverse_Polish_notation
+
+    """
     evaluation_stack = []
     while tokens:
         t_type, value = tokens.popleft()
@@ -74,7 +81,7 @@ def _evaluate_postfix(tokens):
 
 
 def _evaluate_expression(tokens):
-    return _evaluate_postfix(postfix_from_infix(tokens))
+    return evaluate_postfix(postfix_from_infix(tokens))
 
 
 def _equation_quantities(lhs, rhs):
