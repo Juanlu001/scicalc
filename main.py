@@ -3,6 +3,7 @@
 Author: Juan Luis Cano Rodríguez <juanlu001@gmail.com>
 
 """
+from scicalc.parse import parse
 
 
 def main():
@@ -12,7 +13,9 @@ def main():
     while True:
         try:
             line = input("> ")
-            print(line)
+            print(parse(line))
+        except SyntaxError as e:
+            print(e)
         except EOFError:
             break
 

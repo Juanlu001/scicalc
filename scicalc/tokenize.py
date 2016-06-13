@@ -11,12 +11,17 @@ TOKENS = [
     ('PLUS', r'\+'),
     ('TIMES', r'\*'),
     ('DIVIDE', '/'),
-    ('OPEN', r'\('),
-    ('CLOSE', r'\)'),
+    ('LEFT', r'\('),
+    ('RIGHT', r'\)'),
     ('LOG', 'log'),
     ('VARIABLE', 'x'),
     ('EQUALS', '='),
 ]
+
+T_DELIMITERS = ('LEFT', 'RIGHT')
+T_NUMBERS = ('FLOAT', 'INTEGER')
+T_OPERATORS = ('MINUS', 'PLUS', 'TIMES', 'DIVIDE')
+T_FUNCTIONS = ('LOG',)
 
 T_IGNORE = 'WHITESPACE'
 
@@ -25,7 +30,7 @@ def tokenize(line):
     """Tokenizes a line of input.
 
     """
-    return [token for token, _ in split_tokens(line)]
+    return [token for _, token in split_tokens(line)]
 
 
 def split_tokens(line):
@@ -40,7 +45,7 @@ def split_tokens(line):
                     # Shift string, yield token, repeat
                     index = match.end()
                     if t_type != T_IGNORE:
-                        yield match.group(), t_type
+                        yield t_type, match.group()
                     break
             else:
                 # No proper token was found
