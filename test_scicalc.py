@@ -2,6 +2,7 @@ import pytest
 
 from scicalc.tokenize import tokenize
 from scicalc.parse import parse
+from scicalc.evaluate import evaluate
 
 
 # Tokenization tests
@@ -63,3 +64,37 @@ def test_complex_expression():
 
 def test_parse_function():
     assert parse('log 2') == parse('log(2)') == ['2', 'log']
+
+
+# Evaluation tests
+# Note: Checking floating point math results to machine precision on purpose
+
+def test_evaluate_simple_sum():
+    assert evaluate('1 + 2') == 3.0
+
+
+def test_evaluate_complex_expression():
+    assert evaluate('3 + 4 * 2 / ( 1 - 5 )') == 1.0
+
+
+def test_evaluate_with_function():
+    assert evaluate('log 2') == evaluate('log(2)') == 0.69314718055994530942
+
+
+def test_log_precedence():
+    assert evaluate('log(1 + 1)') == evaluate('log(2)') == 0.69314718055994530942
+    assert evaluate('log 1 + 1') == 1.0
+
+
+def test_evaluate_negative_number():
+    assert evaluate('-1') == -1.0
+
+
+# Equations tests
+
+def test_solve_trivial_equation():
+    assert evaluate('x = 1') == 'x = 1.0'
+
+
+def test_assert_simple_equation():
+    assert evaluate('2 * x = 1') == 'x = 0.5'
