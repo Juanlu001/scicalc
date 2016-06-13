@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="scicalc",
-    version="0.1.dev0",
+    version="0.1.0",
     description="Simple scientific calculator",
     author="Juan Luis Cano Rodríguez",
     author_email="juanlu001@gmail.com",
