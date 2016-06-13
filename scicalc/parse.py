@@ -7,6 +7,8 @@ from scicalc.tokenize import (split_tokens, T_NUMBERS, T_OPERATORS, T_FUNCTIONS,
 
 # Operator precedence
 OP_PRECEDENCE = {
+    'UNARY_MINUS': 4,
+    'LOG': 4,
     'TIMES': 3,
     'DIVIDE': 3,
     'PLUS': 2,
@@ -55,7 +57,7 @@ def postfix_from_infix(tokens):
                 # All supported operators are left-associative, see
                 # https://en.wikipedia.org/wiki/Shunting-yard_algorithm#Detailed_example
                 o2 = operator_stack[-1]
-                if o2[0] in T_OPERATORS and OP_PRECEDENCE[o1[0]] <= OP_PRECEDENCE[o2[0]]:
+                if (o2[0] in T_OPERATORS or o2[0] in T_FUNCTIONS) and OP_PRECEDENCE[o1[0]] <= OP_PRECEDENCE[o2[0]]:
                     output_queue.append(operator_stack.pop())
                 else:
                     break

@@ -66,6 +66,11 @@ def test_parse_function():
     assert parse('log 2') == parse('log(2)') == ['2', 'log']
 
 
+def test_parse_function_precedence():
+    assert parse('log(1 + 2)') == ['1', '2', '+', 'log']
+    assert parse('log 1 + 2') == ['1', 'log', '2', '+']
+
+
 def test_parse_unary_minus():
     assert parse('-1') == ['1', '-u']
     assert parse('2 * (-1)') == ['2', '1', '-u', '*']
