@@ -66,6 +66,11 @@ def test_parse_function():
     assert parse('log 2') == parse('log(2)') == ['2', 'log']
 
 
+def test_parse_unary_minus():
+    assert parse('-1') == ['1', '-u']
+    assert parse('2 * (-1)') == ['2', '1', '-u', '*']
+
+
 # Evaluation tests
 # Note: Checking floating point math results to machine precision on purpose
 

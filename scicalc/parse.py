@@ -31,16 +31,20 @@ def postfix_from_infix(tokens):
     Based on https://en.wikipedia.org/wiki/Shunting-yard_algorithm
 
     """
-    # http://wcipeg.com/wiki/Shunting_yard_algorithm
-    # http://www.oxfordmathcenter.com/drupal7/node/628
-    # https://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
-    # Extend with implicit multiplication
-    # https://github.com/bmars/shunting-yard/commit/d34997c
-
     output_queue = deque()
     operator_stack = []
-    for token in tokens:
+    prev = None
+    for ii, token in enumerate(tokens):
         t_type = token[0]
+
+        # First check for unary minus and replace token if necessary
+        if t_type == 'MINUS' and (ii == 0 or
+                                  prev[0] == 'LEFT' or
+                                  prev[0] in T_OPERATORS or
+                                  prev[0] in T_FUNCTIONS):
+            token = ('UNARY_MINUS', '-u')
+
+        # Go on parsing
         if t_type in T_NUMBERS:
             output_queue.append(token)
         elif t_type in T_FUNCTIONS:
@@ -66,6 +70,9 @@ def postfix_from_infix(tokens):
                 output_queue.append(top)
             else:
                 raise SyntaxError("Mismatched parentheses")
+
+        # Save last token for next iteration
+        prev = token
 
     # No more tokens to read
     while operator_stack:

@@ -8,6 +8,7 @@ TOKENS = [
     ('FLOAT', r'\d+\.\d+'),
     ('INTEGER', r'\d+'),
     ('MINUS', r'\-'),
+    ('UNARY_MINUS', r'\-u'),
     ('PLUS', r'\+'),
     ('TIMES', r'\*'),
     ('DIVIDE', '/'),
@@ -22,7 +23,7 @@ T_DELIMITERS = ('LEFT', 'RIGHT')
 T_NUMBERS = ('FLOAT', 'INTEGER')
 T_VARIABLES = ('VARIABLE',)
 T_OPERATORS = ('MINUS', 'PLUS', 'TIMES', 'DIVIDE')
-T_FUNCTIONS = ('LOG',)
+T_FUNCTIONS = ('LOG', 'UNARY_MINUS')
 
 T_IGNORE = 'WHITESPACE'
 

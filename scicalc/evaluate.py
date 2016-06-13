@@ -15,6 +15,7 @@ OP_OPERATIONS = {
     'TIMES': lambda x, y: float(x) * float(y),
     'DIVIDE': lambda x, y: float(x) / float(y),
     'LOG': lambda x: log(float(x)),  # For consistency
+    'UNARY_MINUS': lambda x: -float(x),
 }
 
 
@@ -44,7 +45,6 @@ def evaluate(line):
 def _evaluate_postfix(tokens):
     # TODO: Properly evaluate
     # https://en.wikipedia.org/wiki/Reverse_Polish_notation
-    # http://interactivepython.org/runestone/static/pythonds/BasicDS/InfixPrefixandPostfixExpressions.html
 
     evaluation_stack = []
     while tokens:
