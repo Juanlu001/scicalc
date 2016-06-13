@@ -77,7 +77,7 @@ def evaluate_postfix(tokens):
     if len(evaluation_stack) == 1:
         return evaluation_stack[0]
     else:
-        raise SyntaxError("Too many values")
+        raise SyntaxError("Invalid syntax")
 
 
 def _evaluate_expression(tokens):

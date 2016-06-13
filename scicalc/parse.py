@@ -31,6 +31,10 @@ def postfix_from_infix(tokens):
     Notes
     -----
     Based on https://en.wikipedia.org/wiki/Shunting-yard_algorithm
+    With the current generator architecture it's difficult to change
+    the program to allow implicit multiplication. One idea is to
+    inject a TIMES operator when some conditions are met, but it
+    breaks the stream.
 
     """
     output_queue = deque()
@@ -54,10 +58,9 @@ def postfix_from_infix(tokens):
         elif t_type in T_OPERATORS:
             o1 = token
             while operator_stack:
-                # All supported operators are left-associative, see
-                # https://en.wikipedia.org/wiki/Shunting-yard_algorithm#Detailed_example
                 o2 = operator_stack[-1]
-                if (o2[0] in T_OPERATORS or o2[0] in T_FUNCTIONS) and OP_PRECEDENCE[o1[0]] <= OP_PRECEDENCE[o2[0]]:
+                if ((o2[0] in T_FUNCTIONS and OP_PRECEDENCE[o1[0]] < OP_PRECEDENCE[o2[0]]) or
+                        (o2[0] in T_OPERATORS and OP_PRECEDENCE[o1[0]] <= OP_PRECEDENCE[o2[0]])):
                     output_queue.append(operator_stack.pop())
                 else:
                     break
